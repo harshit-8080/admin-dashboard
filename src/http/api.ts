@@ -9,3 +9,7 @@ export const login = (credential: Credentials) => {
 export const self = () => {
   return api.get("/auth/whoAmI");
 };
+
+export const logout = () => {
+  return api.get("/auth/logout");
+};
