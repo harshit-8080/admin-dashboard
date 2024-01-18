@@ -66,7 +66,7 @@ const LoginPage = () => {
     onSuccess: async () => {
       const selfDataPromise = await refetch();
 
-      if (!isAllowed(selfDataPromise.data.role)) {
+      if (!isAllowed(selfDataPromise.data)) {
         logoutMutate();
       } else {
         setUser(selfDataPromise.data);
