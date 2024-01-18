@@ -4,6 +4,7 @@ import { self } from "../http/api";
 import { useAuthStore } from "../store";
 import { useEffect } from "react";
 import { Spin } from "antd";
+import { AxiosError } from "axios";
 
 const getSelf = async () => {
   const { data } = await self();
@@ -17,6 +18,12 @@ const Root = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["self"],
     queryFn: getSelf,
+    retry: (failureCount: number, error) => {
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        return false; // ^ NO Retry on 401
+      }
+      return failureCount < 3; // ^ Else Retry for 3 Times
+    },
   });
 
   useEffect(() => {
